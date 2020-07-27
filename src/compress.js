@@ -9,6 +9,7 @@ function compress(req, res, input) {
             quality: req.params.quality,
             progressive: true,
             optimizeScans: true
+            reductionEffort: 2
         })
         .toBuffer((err, output, info) => {
             if (err || !info || res.headersSent) return redirect(req, res);
@@ -16,10 +17,8 @@ function compress(req, res, input) {
             res.setHeader('content-length', info.size);
             res.setHeader('x-original-size', req.params.originSize);
             res.setHeader('x-bytes-saved', req.params.originSize - info.size);
-            res.writeHead(200);
-            res.write(output, 'binary');
+            res.status(200);
+            res.write(output);
             res.end()
         })
 }
-
-module.exports = compress;
