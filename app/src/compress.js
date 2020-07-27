@@ -9,6 +9,7 @@ function compress(req, res, input) {
             quality: req.params.quality,
             progressive: true,
             optimizeScans: true
+            reductionEffort: 2
         })
         .toBuffer((err, output, info) => {
             if (err || !info || res.headersSent) return redirect(req, res);
